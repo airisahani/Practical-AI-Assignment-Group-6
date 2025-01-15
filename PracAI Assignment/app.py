@@ -43,7 +43,18 @@ def main():
 
 # Real-time monitoring function
 def run_exercise_monitoring(exercise):
-    cap = cv2.VideoCapture(0)
+    # Try different camera indices if the default (0) doesn't work
+    for camera_index in [0, 1, 2]:
+        cap = cv2.VideoCapture(camera_index)
+        if cap.isOpened():
+            break
+    
+    if not cap.isOpened():
+        st.error("Error: Could not access the webcam. Please check if:")
+        st.error("1. Your webcam is properly connected")
+        st.error("2. You've granted browser/system permission to access the webcam")
+        st.error("3. No other application is currently using the webcam")
+        return
 
     # Set counter and status variables
     counter = 0
@@ -137,7 +148,7 @@ def run_exercise_monitoring(exercise):
 
         # Render the frame in Streamlit
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        stframe.image(frame, channels="RGB", use_column_width=True)
+        stframe.image(frame, channels="RGB", use_container_width=True)
 
         # Break loop on keypress (optional, for local testing)
         if cv2.waitKey(1) & 0xFF == ord('q'):
