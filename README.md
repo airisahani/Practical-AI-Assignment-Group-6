@@ -4,10 +4,10 @@ An AI-powered exercise monitoring system that uses computer vision to track and 
 
 ## Group Members
 
-- U2000428 - Muhammad Shafiq Aiman
-- 10378340 - Aarib Sarker
-- 10378341 - Aarib Sarker
-- 10378342 - Aarib Sarker
+- 10378340 - ade
+- U2000428 - Muhammad Shafiq Aiman Bin Nu Mahamad @ Marzuki
+- 10378341 - airisa
+- 10378342 - airina
 
 ## Features
 
