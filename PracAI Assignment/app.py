@@ -3,6 +3,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from importlib.metadata import version
+import time
 
 # Initialize MediaPipe Pose
 mp_pose = mp.solutions.pose
@@ -62,7 +63,11 @@ def run_exercise_monitoring(exercise):
 
     stframe = st.empty()
 
-    while cap.isOpened():
+    # Add stop button and counter for tracking exercise duration
+    stop_button = st.button("Stop Exercise")
+    start_time = time.time()
+    
+    while cap.isOpened() and not stop_button:
         ret, frame = cap.read()
         if not ret:
             st.error("Error: Unable to read from the webcam.")
@@ -154,7 +159,49 @@ def run_exercise_monitoring(exercise):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+        # Update stop button status
+        stop_button = st.button("Stop Exercise")
+    
+    # Release camera
     cap.release()
+    
+    # Calculate exercise duration
+    duration = int(time.time() - start_time)
+    minutes = duration // 60
+    seconds = duration % 60
+    
+    # Display summary screen
+    st.success("Exercise Session Completed!")
+    
+    # Create three columns for statistics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Total Reps", counter)
+    
+    with col2:
+        st.metric("Duration", f"{minutes}m {seconds}s")
+    
+    with col3:
+        st.metric("Avg Reps/Min", round(counter / max(1, minutes), 1))
+    
+    # Display exercise-specific feedback
+    st.subheader("Exercise Analysis")
+    if counter == 0:
+        st.warning("No repetitions were detected. Make sure you're visible in the camera frame.")
+    else:
+        if exercise == "Push-Ups":
+            st.info("💪 Great job on those push-ups! Remember to maintain a straight back and control your descent.")
+        elif exercise == "Squats":
+            st.info("🏋️ Excellent squatting! Focus on keeping your knees aligned with your toes.")
+        elif exercise == "Bicep Curls":
+            st.info("💪 Well done on the curls! Keep your elbows close to your body for better form.")
+        elif exercise == "Pull-Ups":
+            st.info("💪 Impressive pull-ups! Remember to fully extend your arms at the bottom of each rep.")
+    
+    # Add a restart button
+    if st.button("Start New Exercise"):
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     main()
