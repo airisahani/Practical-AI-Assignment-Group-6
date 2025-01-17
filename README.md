@@ -4,10 +4,10 @@ An AI-powered exercise monitoring system that uses computer vision to track and 
 
 ## Group Members
 
-- 10378340 - ade
+- 22059211 - Ade Aiman Arief Bin Shamsuri
 - U2000428 - Muhammad Shafiq Aiman Bin Nu Mahamad @ Marzuki
-- 10378341 - airisa
-- 10378342 - airina
+- U2102084 - Airisa Hani Binti Mohd Endan
+- U2102083 - Airina Hani Binti Mohd Endan
 
 ## Features
 
